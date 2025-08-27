@@ -1,7 +1,5 @@
 from school_app import create_app
-
+import school_app.tasks  # noqa: F401, noqa: E402
 
 flask_app = create_app()
 celery_app = flask_app.extensions['celery']
-
-import school_app.tasks

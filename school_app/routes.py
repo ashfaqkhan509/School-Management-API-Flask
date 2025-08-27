@@ -245,17 +245,18 @@ def get_student(student_id):
             .options(
                 load_only(Student.id, Student.name, Student.email),
                 selectinload(Student.enrollments)
-                    .joinedload(Enrollment.course)
-                    .load_only(Course.id, Course.title),
+                .joinedload(Enrollment.course)
+                .load_only(Course.id, Course.title),
                 selectinload(Student.results)
-                    .joinedload(Result.assignment)
-                    .load_only(Assignment.id, Assignment.name)
-                    .joinedload(Assignment.lesson)
-                    .load_only(Lesson.id, Lesson.name),
+                .joinedload(Result.assignment)
+                .load_only(Assignment.id, Assignment.name)
+                .joinedload(Assignment.lesson)
+                .load_only(Lesson.id, Lesson.name),
             )
             .filter(Student.id == student_id)
             .first()
         )
+
         if not student:
             return jsonify({'error': 'Student not found'}), 404
 

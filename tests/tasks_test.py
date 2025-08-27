@@ -6,7 +6,7 @@ from school_app.tasks import generate_student_report
 
 
 def test_generate_student_report_creates_csv(app, celery_eager, tmp_path):
-    
+
     student = Student(name="Task User", email="taskuser@example.com")
     course = Course(title="Task Course", description="Celery test course")
     lesson = Lesson(name="Task Lesson", course=course)

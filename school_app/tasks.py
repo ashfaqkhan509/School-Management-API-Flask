@@ -1,7 +1,7 @@
 import os
 import csv
 from typing import Optional
-from sqlalchemy.orm import selectinload, load_only, joinedload
+from sqlalchemy.orm import selectinload, load_only
 from school_app import db
 from school_app.models import Student, Result, Assignment, Lesson, Course
 from celery import shared_task
@@ -17,12 +17,12 @@ def generate_student_report(student_id: int) -> str:
         .options(
             load_only(Student.id, Student.name, Student.email),
             selectinload(Student.results)
-                .joinedload(Result.assignment)
-                .load_only(Assignment.id, Assignment.name, Assignment.lesson_id, Assignment.is_deleted)
-                .joinedload(Assignment.lesson)
-                .load_only(Lesson.id, Lesson.name, Lesson.course_id, Lesson.is_deleted)
-                .joinedload(Lesson.course)
-                .load_only(Course.id, Course.title, Course.is_deleted)
+            .joinedload(Result.assignment)
+            .load_only(Assignment.id, Assignment.name, Assignment.lesson_id, Assignment.is_deleted)
+            .joinedload(Assignment.lesson)
+            .load_only(Lesson.id, Lesson.name, Lesson.course_id, Lesson.is_deleted)
+            .joinedload(Lesson.course)
+            .load_only(Course.id, Course.title, Course.is_deleted)
         )
         .filter(Student.id == student_id)
         .first()
