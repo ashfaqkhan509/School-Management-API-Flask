@@ -3,7 +3,6 @@ from celery_worker import celery_init_app
 from school_app.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from school_app import tasks  # noqa: F401, noqa: E402
 
 
 db = SQLAlchemy()
@@ -28,5 +27,7 @@ def create_app():
 
     from school_app import routes
     app.register_blueprint(routes.bp, url_prefix='/api')
+
+    from school_app import tasks  # noqa: F401
 
     return app
