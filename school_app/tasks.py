@@ -2,7 +2,6 @@ import os
 import csv
 from typing import Optional
 from sqlalchemy.orm import selectinload, load_only
-from school_app import db
 from school_app.models import Student, Result, Assignment, Lesson, Course
 from celery import shared_task
 
@@ -10,7 +9,7 @@ from celery import shared_task
 @shared_task
 def generate_student_report(student_id: int) -> str:
     """Background task to generate a CSV report for a student."""
-
+    from school_app import db
     # Fetch student in a single roundtrip with eager loading
     student: Optional[Student] = (
         db.session.query(Student)
