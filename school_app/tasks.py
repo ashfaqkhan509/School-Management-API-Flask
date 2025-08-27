@@ -11,7 +11,6 @@ from celery import shared_task
 def generate_student_report(student_id: int) -> str:
     """Background task to generate a CSV report for a student."""
 
-    # Fetch student in a single roundtrip with eager loading
     student: Optional[Student] = (
         db.session.query(Student)
         .options(
